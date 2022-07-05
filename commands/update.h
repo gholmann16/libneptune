@@ -11,7 +11,7 @@ int update(int argc, char *name) {
             char *oldloc = combine("/etc/neptune/apps/", old, 0);
             free(old);
             char *current = combine("/etc/neptune/apps/", file, 0);
-            char *updatetool = combine(getenv("APPDIR"), "/usr/bin/appimageupdatetool-x86_64.AppImage", 0)
+            char *updatetool = combine(getenv("APPDIR"), "/usr/bin/appimageupdatetool-x86_64.AppImage", 0);
             sexecl(updatetool, "-O", current, NULL);
             free(current);
             free(updatetool);

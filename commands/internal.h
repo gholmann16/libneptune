@@ -11,7 +11,8 @@ int registerp(char *softlink, char *ptr) {
     char localdata[MAX_DIR_LEN];
     strncpy(rlocaldata, getdir("/etc/neptune/userdata"), MAX_DIR_LEN-1);
     rlocaldata[MAX_DIR_LEN] = '\0';
-    for (int i = 0; i < strlen(rlocaldata); i++)
+    int i;
+    for (i = 0; i < strlen(rlocaldata); i++)
         localdata[i] = rlocaldata[i+2]; //could be problematic
     char* full = combine(getenv("HOME"), localdata, 1);
     mkdir(full, 0700);

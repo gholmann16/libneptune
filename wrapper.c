@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
+#include <sys/types.h>
 #include <dirent.h>
 #include <pwd.h>
 #include <appimage/appimage.h>
@@ -27,4 +28,6 @@
 #include "commands/update.h"
 #include "commands/run.h"
 
-int main() {}
+int main() {
+    return 0;
+}

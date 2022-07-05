@@ -11,12 +11,13 @@ int run(char file[MAX_FILE_LENGTH], int argc, char * argv[]) {
     char *program = combine(dir1, file, 1);
     char *location = combine(dir2, file, 1);
     int ret;
+    int i;
 
     if(!access(program, F_OK)) {
         char cmd[4096];
         sprintf(cmd, "aisap-0.6.6-alpha-x86_64.AppImage --profile %s/metadata/permissions.ini --data-dir %s/apphome %s", location, location, program);
         if(argc > 0)
-            for (int i = 1; i < argc; i++) {
+            for (i = 1; i < argc; i++) {
                 strcat(cmd, " ");
                 strncat(cmd, argv[i], strlen(argv[i]));
                 printf("cmd %d = %s\n", i, cmd);
