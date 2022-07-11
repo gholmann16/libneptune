@@ -27,6 +27,7 @@
 #include "commands/find.h"
 #include "commands/update.h"
 #include "commands/run.h"
+#include "commands/refresh.h"
 
 int main() {
     return 0;

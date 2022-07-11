@@ -1,21 +1,19 @@
 int run(char file[MAX_FILE_LENGTH], int argc, char * argv[]) {
 
-    char dir1[MAX_DIR_LEN+1];
-    char dir2[MAX_DIR_LEN+1];
+    char dir1[MAX_DIR_LEN];
+    char dir2[MAX_DIR_LEN];
     
-    strncpy(dir1, "/etc/neptune/apps", MAX_DIR_LEN);
-    strncpy(dir2, getdir("/etc/neptune/userdata"), MAX_DIR_LEN);
-    dir1[MAX_DIR_LEN] = '\0';
-    dir2[MAX_DIR_LEN] = '\0';
+    strcpy(dir1, "/etc/neptune/apps/");
+    strcpy(dir2, getdir("/etc/neptune/userdata"));
     
-    char *program = combine(dir1, file, 1);
+    strcat(dir1, file);
     char *location = combine(dir2, file, 1);
     int ret;
     int i;
 
-    if(!access(program, F_OK)) {
+    if(!access(dir1, F_OK)) {
         char cmd[4096];
-        sprintf(cmd, "aisap-0.6.6-alpha-x86_64.AppImage --profile %s/metadata/permissions.ini --data-dir %s/apphome %s", location, location, program);
+        sprintf(cmd, "aisap-0.6.6-alpha-x86_64.AppImage --profile %s/metadata/permissions.ini --data-dir %s/apphome %s", location, location, dir1);
         if(argc > 0)
             for (i = 1; i < argc; i++) {
                 strcat(cmd, " ");
@@ -26,11 +24,10 @@ int run(char file[MAX_FILE_LENGTH], int argc, char * argv[]) {
         ret = system(cmd);
     }
     else {
-        printf("This program (%s) does not exist.\n", program);
+        printf("This program (%s) does not exist.\n", dir1);
         ret = 8;
     }
 
     free(location); // we stan proper memory management 
-    free(program);
     return ret;
 }

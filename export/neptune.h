@@ -36,3 +36,9 @@ int update(int argc, char *name);
     Give it the name of the program, as well as your argc and argv. argv[0] will be ignored 
     because that is represented by file */
 int run(char *file, int arg, char* argv[]);
+
+// Uninstalls app, along with all data in the app
+int uninstall(char* name);
+
+// Refreshes your list of apps, if its screwed up for some reason
+int refresh(); 

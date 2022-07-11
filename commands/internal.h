@@ -1,4 +1,4 @@
-int registerp(char *softlink, char *ptr) {
+int registerp(const char *softlink, char *ptr) {
     if (strcmp(getenv("HOME"), "/") == 0) {
         return 10; //this is for nobody user
     }
@@ -6,7 +6,9 @@ int registerp(char *softlink, char *ptr) {
     if (appimage_is_registered_in_system(softlink))
         appimage_unregister_in_system(softlink, VERBOSE); //in case you uninstall and reinstall Neptune
     
+    printf("vars = %s, %s, %d\n", softlink, getenv("HOME"), geteuid());
     appimage_register_in_system(softlink, VERBOSE);
+
     char rlocaldata[MAX_DIR_LEN];
     char localdata[MAX_DIR_LEN];
     strncpy(rlocaldata, getdir("/etc/neptune/userdata"), MAX_DIR_LEN-1);
@@ -14,10 +16,9 @@ int registerp(char *softlink, char *ptr) {
     int i;
     for (i = 0; i < strlen(rlocaldata); i++)
         localdata[i] = rlocaldata[i+2]; //could be problematic
-    char* full = combine(getenv("HOME"), localdata, 1);
-    mkdir(full, 0700);
-    chdir(full);
-    free(full);
+    chdir(getenv("HOME"));
+    mkdir(localdata, 0700);
+    chdir(localdata);
     DIR* dir = opendir(ptr);
 
     if (dir) {
@@ -50,9 +51,8 @@ int registerp(char *softlink, char *ptr) {
 }
 
 int deregister(char *name) { //TODO: delete data dir 
-    if (strcmp(getenv("HOME"), "/") == 0) {
+    if (strcmp(getenv("HOME"), "/") == 0) 
         return 10; //this is for nobody user
-    }
     return appimage_unregister_in_system(name, VERBOSE);
 }
 
@@ -61,17 +61,16 @@ int uninstall() {
     return 0;
 }
 
-int desktop(char *name) {
+char* desktop(char *name) {
     char **array = appimage_list_files(name);
     int i = 0;
     while (array[i] != NULL) {
         if (strcmp(getFileExtension(array[i]), "desktop") == 0) {
-            FILE *desktop = fopen("/tmp/filepath", "w");
-            fprintf(desktop, "%s", array[i]);
-            fclose(desktop);
-            return 0;
+            char * answer = malloc(MAX_FILE_LENGTH);
+            strcpy(answer, array[i]);
+            return answer;
         }
         i++;
     }
-    return 1; //not found;
+    return NULL; //not found;
 }
