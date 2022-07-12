@@ -6,7 +6,6 @@ int registerp(const char *softlink, char *ptr) {
     if (appimage_is_registered_in_system(softlink))
         appimage_unregister_in_system(softlink, VERBOSE); //in case you uninstall and reinstall Neptune
     
-    printf("vars = %s, %s, %d\n", softlink, getenv("HOME"), geteuid());
     appimage_register_in_system(softlink, VERBOSE);
 
     char rlocaldata[MAX_DIR_LEN];

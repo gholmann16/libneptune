@@ -40,17 +40,20 @@ int integrate(char file[MAX_FILE_LENGTH]) {
     strcat(softlink, ptr);
     remove(softlink);
     symlink(finalfile, softlink);
+    
     struct passwd *pwd;
+    setpwent();
 
     while ((pwd = getpwent()) != NULL) {
-        if(pwd->pw_uid > 999) {
+        if(pwd->pw_uid > 999) { 
             setenv("HOME", pwd->pw_dir, 1);
             seteuid(pwd->pw_uid);
-            printf("vars = %s, %s, %d, %d, %d\n", getenv("HOME"), softlink, geteuid(), pwd->pw_uid, appimage_is_registered_in_system(softlink));
             registerp(softlink, ptr);
             seteuid(0);
         }
 	}
+
+    endpwent();
 
     remove(softlink);
     symlink("/etc/neptune/bin/nep", softlink);
@@ -68,6 +71,7 @@ int integrate(char file[MAX_FILE_LENGTH]) {
     else {
         appimage_extract_file_following_symlinks(finalfile, dfile, dotdesktop);
         chmod(finalfile, 0755);
+        printf("Success");
     }
 
     free(dfile);
