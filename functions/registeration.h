@@ -8,11 +8,14 @@ int registerApp(char file[]) {
     return 0;
 }
 
-int unregisterApp(char filename[], char delete_line[])
+int unregisterApp(char *filename, char *delete_line)
 {
     char temp_filename[64] = "/tmp/temppfile";
     char buffer[MAX_PROGRAM_NAME];
-    strcat(delete_line, "\n");
+    char arr[MAX_PROGRAM_NAME];
+    char *del_line = arr;
+    strcpy(del_line, delete_line);
+    strcat(del_line, "\n");
 
     FILE *file, *temp;
 
@@ -34,7 +37,7 @@ int unregisterApp(char filename[], char delete_line[])
 
         // if we've reached the end of the file, stop reading from the file
         if (feof(file)) keep_reading = false;
-        else if (strcmp(buffer, delete_line) != 0) {
+        else if (strcmp(buffer, del_line) != 0) {
             fputs(buffer, temp);
         }
 

@@ -1,24 +1,28 @@
-int removedir() {
-    return 0;
-}
-
-int uninstall(char* file[MAX_FILE_LENGTH]) {
+int uninstall(char *file) {
     //Delete App
-    unistall(file);
+    destroy(file);
 
     // Delete Data
-    char directory[4] = {"/metadata", "apphome/.local/share", "apphome/.config", "apphome/.cache"};
+    char* directory[4] = {"apphome/.local/share", "apphome/.config", "apphome/.cache"};
     struct passwd *pwd;
+    setpwent();
     int i;
-    for (i = 0; i < 4; i++)
+
+    char* home = getdir("/etc/neptune/userdata");
+    memmove(home, home+2, strlen(home) + 2 - 1);
+
     while ((pwd = getpwent()) != NULL) {
         if(pwd->pw_uid > 999) {
             setenv("HOME", pwd->pw_dir, 1);
             seteuid(pwd->pw_uid);
-            removedir(directory[i]);
+            chdir(getenv("HOME"));
+            chdir(home);
+            chdir(file);
+            for (i = 0; i < 3; i++) 
+                sexecl("/bin/rm", "-rf", directory[i], NULL);
+            seteuid(0);
         }
-	}
-    seteuid(0);
+    }
     
     return 0;
 }

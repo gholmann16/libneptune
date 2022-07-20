@@ -55,11 +55,6 @@ int deregister(char *name) { //TODO: delete data dir
     return appimage_unregister_in_system(name, VERBOSE);
 }
 
-int uninstall() {
-    printf("You should not have accessed this function.\n"); //uninstall data
-    return 0;
-}
-
 char* desktop(char *name) {
     char **array = appimage_list_files(name);
     int i = 0;

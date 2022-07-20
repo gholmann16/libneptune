@@ -18,9 +18,11 @@
 #include "functions/checkfile.h"
 #include "functions/checkroot.h"
 #include "functions/registeration.h"
+#include "functions/internal.h"
 
-#include "commands/internal.h"
-#include "commands/integration.h"
+#include "commands/integrate.h"
+#include "commands/remove.h"
+#include "commands/uninstall.h"
 #include "commands/install.h"
 #include "commands/list.h"
 #include "commands/reinstall.h"

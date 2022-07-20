@@ -37,7 +37,9 @@ int update(int argc, char *program);
     because that is represented by file */
 int run(char *file, int arg, char* argv[]);
 
-// Uninstalls app, along with all data in the app
+/*  Uninstalls app, along with all local configuration files
+    These include any files added to the apps *local* .config, .cache, or .local/share directories
+    This function will not delete the user's real .local, .config, or .cache directories.  */
 int uninstall(char* name);
 
 // Refreshes your list of apps, if its screwed up for some reason
