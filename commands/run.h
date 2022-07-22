@@ -18,9 +18,7 @@ int run(char file[MAX_FILE_LENGTH], int argc, char * argv[]) {
             for (i = 1; i < argc; i++) {
                 strcat(cmd, " ");
                 strncat(cmd, argv[i], strlen(argv[i]));
-                printf("cmd %d = %s\n", i, cmd);
             }
-        printf("cmd = %s", cmd);
         ret = system(cmd);
     }
     else {

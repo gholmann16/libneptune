@@ -6,7 +6,10 @@
 #include <sys/types.h>
 #include <dirent.h>
 #include <pwd.h>
+
+//External Libraries
 #include <appimage/appimage.h>
+#include <ezxml.h>
 
 #define MAX_DIR_LEN 512
 #define MAX_FILE_LENGTH 256 //might wanna look at these values in the future
