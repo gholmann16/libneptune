@@ -44,3 +44,6 @@ int uninstall(char* name);
 
 // Refreshes your list of apps, if its screwed up for some reason
 int refresh(); 
+
+// Updates an appimage
+int update_appimage(char * appname);
