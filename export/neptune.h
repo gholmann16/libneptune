@@ -22,7 +22,7 @@ int install(char *file);
 //  Low level function that needs the exact filepath and integrates AppImage for all users
 int integrate(char *file);
 
-// Moves app to cache and deregisters it. Only provide the name, not the full path
+// Removes an app. Safer version of uninstall(). Only provide the name, not the full path
 int destroy(char *program);
 
 // Reinstalls app. Only provide file name
@@ -37,13 +37,12 @@ int update(int argc, char *program);
     because that is represented by file */
 int run(char *file, int arg, char* argv[]);
 
-/*  Uninstalls app, along with all local configuration files
-    These include any files added to the apps *local* .config, .cache, or .local/share directories
-    This function will not delete the user's real .local, .config, or .cache directories.  */
+/*  Uninstalls app, along with all local app data. It will delete data not only for one user but for every user. 
+    Make sure to heed warning in your instructions. */
 int uninstall(char* name);
 
 // Refreshes your list of apps, if its screwed up for some reason
 int refresh(); 
 
-// Updates an appimage
-int update_appimage(char * appname);
+// Updates an appimage directly. Provide direct path.
+int update_appimage(char * appname); 

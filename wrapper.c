@@ -24,6 +24,7 @@
 #include "functions/checkroot.h"
 #include "functions/registeration.h"
 #include "functions/internal.h"
+#include "functions/extract.h"
 
 #include "commands/integrate.h"
 #include "commands/remove.h"

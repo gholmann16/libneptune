@@ -11,7 +11,6 @@ namespace appimage::update
 class Updater;
 }
 
-
 extern "C" int update_appimage(char * appname) {
     appimage::update::Updater updater(appname, true);
 
@@ -27,6 +26,7 @@ extern "C" int update_appimage(char * appname) {
     }
 
     if (updateAvailable) {
+        printf("Update availble! Updating %s.\n", appname);
         updater.start();
 
         // isDone() returns true as soon as the update has finished
@@ -54,7 +54,7 @@ extern "C" int update_appimage(char * appname) {
                 return 1;
             }
         }
-        char * temp = NULL;
+        char temp[300];
         strcpy(temp, appname);
         strcat(temp, ".zs-old");
         remove(temp);

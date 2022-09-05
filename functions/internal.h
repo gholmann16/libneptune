@@ -54,17 +54,3 @@ int deregister(char *name) { //TODO: delete data dir
         return 10; //this is for nobody user
     return appimage_unregister_in_system(name, VERBOSE);
 }
-
-char* desktop(char *name) {
-    char **array = appimage_list_files(name);
-    int i = 0;
-    while (array[i] != NULL) {
-        if (strcmp(getFileExtension(array[i]), "desktop") == 0) {
-            char * answer = malloc(MAX_FILE_LENGTH);
-            strcpy(answer, array[i]);
-            return answer;
-        }
-        i++;
-    }
-    return NULL; //not found;
-}
