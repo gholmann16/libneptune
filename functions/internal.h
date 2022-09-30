@@ -8,13 +8,7 @@ int registerp(const char *softlink, char *ptr) {
     
     appimage_register_in_system(softlink, VERBOSE);
 
-    char rlocaldata[MAX_DIR_LEN];
-    char localdata[MAX_DIR_LEN];
-    strncpy(rlocaldata, getdir("/etc/neptune/userdata"), MAX_DIR_LEN-1);
-    rlocaldata[MAX_DIR_LEN] = '\0';
-    int i;
-    for (i = 0; i < strlen(rlocaldata); i++)
-        localdata[i] = rlocaldata[i+2]; //could be problematic
+    char *localdata = getdir("/etc/neptune/userdata");
     chdir(getenv("HOME"));
     mkdir(localdata, 0700);
     chdir(localdata);

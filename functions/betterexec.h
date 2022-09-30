@@ -1,8 +1,7 @@
 int bsexecl(const char * command, const char * args[]) {
 
     pid_t p=fork();
-    if(p==0)
-    {
+    if(p==0) {
         execv(command, (char * const *)args);
         perror("execv");
         exit(1);

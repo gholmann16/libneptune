@@ -1,31 +1,52 @@
 int run(char file[MAX_FILE_LENGTH], int argc, char * argv[]) {
 
-    char dir1[MAX_DIR_LEN];
-    char dir2[MAX_DIR_LEN];
+    char app[MAX_DIR_LEN];
+    char data[MAX_DIR_LEN];
+    char permissions[MAX_DIR_LEN];
+    char home[MAX_DIR_LEN];
     
-    strcpy(dir1, "/etc/neptune/apps/");
-    strcpy(dir2, getdir("/etc/neptune/userdata"));
+    strcpy(app, "/etc/neptune/apps/");
+    strcpy(data, getenv("HOME"));
     
-    strcat(dir1, file);
-    char *location = combine(dir2, file, 1);
-    int ret;
-    int i;
+    strcat(app, file);
 
-    if(!access(dir1, F_OK)) {
-        char cmd[4096];
-        sprintf(cmd, "aisap-0.6.6-alpha-x86_64.AppImage --profile %s/metadata/permissions.ini --data-dir %s/apphome %s", location, location, dir1);
-        if(argc > 0)
-            for (i = 1; i < argc; i++) {
-                strcat(cmd, " ");
-                strncat(cmd, argv[i], strlen(argv[i]));
-            }
-        ret = system(cmd);
-    }
-    else {
-        printf("This program (%s) does not exist.\n", dir1);
-        ret = 8;
-    }
+    strcat(data, "/");
+    strcat(data, getdir("/etc/neptune/userdata"));
+    strcat(data, "/");
+    strcat(data, file);
 
-    free(location); // we stan proper memory management 
-    return ret;
+    strcpy(permissions, data);
+    strcat(permissions, "/metadata/permissions.ini");
+
+    strcpy(home, data);
+    strcat(home, "/apphome"); 
+
+    if(!access(app, F_OK)) {
+        //sexecl("aisap-0.8.0-alpha-x86_64.AppImage", "--profile", permissions, "--data-dir", home, app);
+        const char * arguments[argc + 6];
+        int i;
+
+        arguments[0] = "aisap-0.8.0-alpha-x86_64.AppImage";
+        arguments[1] = "--profile";
+        arguments[2] = permissions;
+        arguments[3] = "--data-dir";
+        arguments[4] = home;
+        arguments[5] = app;
+
+        char command[MAX_DIR_LEN];
+        strcpy(command, getenv("APPDIR"));
+        strcat(command, "/usr/bin/");
+        strcat(command, "aisap-0.8.0-alpha-x86_64.AppImage");
+
+        for (i = 1; i < argc; i++) 
+            arguments[i + 5] = argv[i];
+        arguments[argc + 5] = NULL;
+        
+        bsexecl(command, arguments);
+        
+    }
+    else 
+        printf("This program (%s) does not exist.\n", app);
+
+    return 0;
 }
