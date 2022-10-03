@@ -1,3 +1,3 @@
 int list() {
-    return system("cd /etc/neptune/apps && du --block-size=MB * | sort -hr");
+    return system("cd ~/.local/neptune/apps && du --block-size=MB * | sort -hr");
 }

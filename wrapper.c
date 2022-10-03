@@ -14,15 +14,15 @@
 #define MAX_DIR_LEN 512
 #define MAX_FILE_LENGTH 256 //might wanna look at these values in the future
 #define VERBOSE 0
+#define PERMISSIONS 0755
 
 #include "lib/localupdate.h"
 
 #include "functions/scrape.h"
 #include "functions/betterexec.h"
 #include "functions/extra.h"
+#include "functions/meta.h"
 #include "functions/checkfile.h"
-#include "functions/checkroot.h"
-#include "functions/registeration.h"
 #include "functions/internal.h"
 #include "functions/extract.h"
 
@@ -35,4 +35,3 @@
 #include "commands/find.h"
 #include "commands/update.h"
 #include "commands/run.h"
-#include "commands/refresh.h"

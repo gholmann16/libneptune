@@ -9,10 +9,10 @@
 #include <pwd.h>
 #include <appimage/appimage.h>
 
-//Lists programs installed by Neptune using cat. Programs stored in /etc/neptune/list
+//Lists programs installed by Neptune
 int list(); 
 
-//Searches through /etc/neptune/data/ database for program.
+//Searches through ~/.config/neptune/mirror database for program.
 int find();  
 
 /*  Trys to install AppImage provided. If it cannot find an AppImage, it will try to install from 

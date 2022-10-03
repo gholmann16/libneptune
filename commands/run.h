@@ -5,15 +5,17 @@ int run(char file[MAX_FILE_LENGTH], int argc, char * argv[]) {
     char permissions[MAX_DIR_LEN];
     char home[MAX_DIR_LEN];
     
-    strcpy(app, "/etc/neptune/apps/");
-    strcpy(data, getenv("HOME"));
-    
+    strcpy(app, getenv("HOME"));
+    strcat(app, "/.local/neptune/apps/");
     strcat(app, file);
-
+    
+    char * dir = getdir("userdata");
+    strcpy(data, getenv("HOME"));
     strcat(data, "/");
-    strcat(data, getdir("/etc/neptune/userdata"));
+    strcat(data, dir);
     strcat(data, "/");
     strcat(data, file);
+    free(dir);
 
     strcpy(permissions, data);
     strcat(permissions, "/metadata/permissions.ini");

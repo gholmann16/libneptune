@@ -1,5 +1,8 @@
 char* searchxml(char* file) {
-    ezxml_t mirror = ezxml_parse_file("/etc/neptune/mirror");
+    char path[MAX_DIR_LEN];
+    strcpy(path, getenv("HOME"));
+    strcat(path, "/.config/neptune/mirror");
+    ezxml_t mirror = ezxml_parse_file(path);
     ezxml_t app;
     
     for (app = ezxml_child(mirror, "app"); app; app = app->next) {
@@ -54,23 +57,22 @@ int download(char file[MAX_FILE_LENGTH]) {
 
 int install(char *name) {
 
-    checkroot();
-
-    int ret = 2;
-    char *file = combine(getenv("OWD"), name, 1);
-
+    if(!access(name, F_OK) && !check(name))
+        return integrate(name);
+    char file[MAX_DIR_LEN];
+    strcpy(file, getenv("OWD"));
+    strcat(file, "/");
+    strcat(file, name);
     if(!access(file, F_OK ) && !check(file)) 
-        ret = integrate(file);
-    else if(!access(name, F_OK) && !check(name))
-        ret = integrate(name);
+        return integrate(file);
     else if (download(name)) {
-        char *newfile = combine("/tmp/", name, 0);
+        char newfile[MAX_DIR_LEN];
+        strcpy(newfile, "/tmp/");
+        strcat(newfile, name);
         if(!check(newfile))
-            ret = integrate(newfile);
+            return integrate(newfile);
         else 
-            remove(newfile);
-        free(newfile);
+            return remove(newfile);
     }
-    free(file);
-    return ret;
+    return 0;
 }

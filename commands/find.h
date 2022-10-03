@@ -1,6 +1,9 @@
 int find(char* file) {
     if (file == NULL) return printf("No search term provided.\n");
-    ezxml_t mirror = ezxml_parse_file("/etc/neptune/mirror");
+    char path[MAX_DIR_LEN];
+    strcpy(path, getenv("HOME"));
+    strcat(path, "/.config/neptune/mirror");
+    ezxml_t mirror = ezxml_parse_file(path);
     ezxml_t app;
     
     for (app = ezxml_child(mirror, "app"); app; app = app->next) {

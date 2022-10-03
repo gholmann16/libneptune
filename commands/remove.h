@@ -1,38 +1,35 @@
 int destroy(char* file) {
 
-    char *dir = getdir("/etc/neptune/dir");
-    checkroot();
+    char link[MAX_DIR_LEN];
+    char app[MAX_DIR_LEN];
+    char real[MAX_DIR_LEN];
+    
+    strcpy(link, getenv("HOME"));
+    strcat(link, "/.local/neptune/bin/");
+    strcat(link, file);
 
-    char *link = combine("/etc/neptune/bin/", file, 0);
-    char *app = combine("/etc/neptune/apps/", file, 0);
-    char *real = combine(dir, file, 1);
-    char *real2 = combine(real, ".desktop", 0);
-    free(real);
+    strcpy(app, getenv("HOME"));
+    strcat(app, "/.local/neptune/apps/");
+    strcat(app, file);
+
+    char *dir = getdir("dir");
+    strcpy(real, dir);
+    strcat(real, "/");
+    strcat(real, file);
+    strcat(real, ".desktop");
+    free(dir);
 
     printf("Deregistering from system.\n");
-    struct passwd *pwd;
-    setpwent();
+    deregister(link);
 
-    while ((pwd = getpwent()) != NULL) {
-        if(pwd->pw_uid > 999) {
-            setenv("HOME", pwd->pw_dir, 1);
-            seteuid(pwd->pw_uid);
-            deregister(link);
-            seteuid(0);
-        }
-    }
     remove(link);
-    free(link);
-    unregisterApp("/etc/neptune/list", file);
-    remove(real2);
+    remove(real);
     if (remove(app) == 0)
         printf("Success\n");
     else {
         perror("Unable to delete app");
         printf("APP: %s\n", app);
     }
-    free(app);
-    free(real2);
 
     return 0;
 }

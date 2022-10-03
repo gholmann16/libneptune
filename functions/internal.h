@@ -1,24 +1,22 @@
 int registerp(const char *softlink, char *ptr) {
-    if (strcmp(getenv("HOME"), "/") == 0) {
-        return 10; //this is for nobody user
-    }
 
     if (appimage_is_registered_in_system(softlink))
         appimage_unregister_in_system(softlink, VERBOSE); //in case you uninstall and reinstall Neptune
     
     appimage_register_in_system(softlink, VERBOSE);
 
-    char *localdata = getdir("/etc/neptune/userdata");
+    char *localdata = getdir("userdata");
     chdir(getenv("HOME"));
     mkdir(localdata, 0700);
     chdir(localdata);
+    free(localdata);
     DIR* dir = opendir(ptr);
 
     if (dir) {
         /* Directory exists. */
         closedir(dir);
-        printf("App already installed on this user, skipping installation.\n");
-        return 9;
+        printf("App has previously been installed, skipping user installation.\n");
+        return 0;
     } 
     
     else {
@@ -36,15 +34,10 @@ int registerp(const char *softlink, char *ptr) {
         fprintf(perms, "Sockets=x11;wayland;pulseaudio;network;\n");
         fclose(perms);
 
-        // link(combine("appcopy/", ptr, 0), combine(getdir("/etc/neptune/dir"), ptr, 1));
-        // the link is to make it easy to transfer these appimages
-        // might implement some more functionality after I make sandboxing mandatory
         return 0;
     }
 }
 
-int deregister(char *name) { //TODO: delete data dir 
-    if (strcmp(getenv("HOME"), "/") == 0) 
-        return 10; //this is for nobody user
+int deregister(char *name) { 
     return appimage_unregister_in_system(name, VERBOSE);
 }

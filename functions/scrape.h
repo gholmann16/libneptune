@@ -1,14 +1,23 @@
-char *getdir(char pdir[]) {
+char *getdir(char * pdir) {
 
-    if(access(pdir, F_OK )) {
+    char newdir[MAX_DIR_LEN];
+    strcpy(newdir, getenv("HOME"));
+    strcat(newdir, "/.config/neptune/");
+    strcat(newdir, pdir);
+
+    if(access(newdir, F_OK )) {
         printf("You have not selected your directory preferences yet. Run ./Neptune-x86_64.AppImage --install to install Neptune to your system");
         exit(1);
     }
     
-    static char dir[MAX_DIR_LEN];
-    FILE *fp = fopen(pdir, "r");
-    while (fgets(dir, sizeof(dir), fp)) 
-        ;
+    char * dir = malloc(MAX_DIR_LEN);
+    char ch;
+    int i = 0;
+    FILE *fp = fopen(newdir, "r");
+    while ((ch = fgetc(fp)) != EOF) {
+        dir[i] = ch;
+        ++i;
+    }
     fclose(fp);
     return dir;
 }

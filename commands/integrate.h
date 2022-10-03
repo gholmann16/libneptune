@@ -1,13 +1,10 @@
-int integrate(char file[MAX_FILE_LENGTH]) {
-
-    checkroot();
+int integrate(char * file) {
 
     char filenamecp[MAX_FILE_LENGTH];
     char finalfile[MAX_DIR_LEN];
     strcpy(filenamecp, file);
 
-    chown(file, 0, 0);
-    chmod(file, 0755);
+    chmod(file, PERMISSIONS);
 
     // Don't add part after -
     char *ptr;
@@ -27,42 +24,36 @@ int integrate(char file[MAX_FILE_LENGTH]) {
         ptr = ptr + 1;
 
 
-    strcpy(finalfile, "/etc/neptune/apps/");
+    strcpy(finalfile, getenv("HOME"));
+    strcat(finalfile, "/.local/neptune/apps/");
     strcat(finalfile, ptr);
 
     sexecl("/bin/mv", filenamecp, finalfile, NULL);
     
     printf("Registering into system.\n");
 
-    char softlink[384];
-    strcpy(softlink, "/etc/neptune/bin/");
+    char softlink[MAX_DIR_LEN];
+    strcpy(softlink, getenv("HOME"));
+    strcat(softlink, "/.local/neptune/bin/");
     strcat(softlink, ptr);
     remove(softlink);
     symlink(finalfile, softlink);
     
-    struct passwd *pwd;
-    setpwent();
-
-    while ((pwd = getpwent()) != NULL) {
-        if(pwd->pw_uid > 999) { 
-            setenv("HOME", pwd->pw_dir, 1);
-            seteuid(pwd->pw_uid);
-            registerp(softlink, ptr);
-            seteuid(0);
-        }
-	}
-
-    endpwent();
+    registerp(softlink, ptr);
 
     remove(softlink);
-    symlink("/etc/neptune/bin/nep", softlink);
-    registerApp(ptr);
+    symlink("/usr/bin/nep", softlink);
 
     char dotdesktop[MAX_DIR_LEN];
-    strcpy(dotdesktop, getdir("/etc/neptune/dir"));
+    char *dir = getdir("dir");
+    strcpy(dotdesktop, getenv("HOME"));
+    strcat(dotdesktop, "/");
+    strcat(dotdesktop, dir);
     strcat(dotdesktop, "/");
     strcat(dotdesktop, ptr);
     strcat(dotdesktop, ".desktop");
+
+    free(dir);
 
     char* dfile = desktop(finalfile);
     if (dfile == NULL)

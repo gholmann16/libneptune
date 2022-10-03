@@ -1,11 +1,16 @@
 int reinstall(char* name) {
-    checkroot();
-    char *cache = combine("/etc/neptune/cache/", name, 0);
-    char *app = combine("/etc/neptune/apps/", name, 0);
+    char cache[MAX_DIR_LEN];
+    char app[MAX_DIR_LEN];
+
+    strcpy(cache, "/tmp/");
+    strcat(cache, name);
+
+    strcpy(app, getenv("HOME"));
+    strcat(app, "/.local/neptune/apps/");
+    strcat(app, name);
+
     link(app, cache);
-    free(app);
     destroy(name);
     integrate(cache);
-    free(cache);
     return 0;
 }
