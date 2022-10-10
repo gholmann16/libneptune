@@ -32,6 +32,6 @@
 #include "commands/install.h"
 #include "commands/list.h"
 #include "commands/reinstall.h"
-#include "commands/find.h"
 #include "commands/update.h"
+#include "commands/find.h"
 #include "commands/run.h"

@@ -3,6 +3,10 @@ int find(char* file) {
     char path[MAX_DIR_LEN];
     strcpy(path, getenv("HOME"));
     strcat(path, "/.config/neptune/mirror");
+    if (access(path, F_OK)) { 
+        printf("Local mirror not availible. Downloading latest mirror.\n");
+        update(2, NULL);
+    }
     ezxml_t mirror = ezxml_parse_file(path);
     ezxml_t app;
     

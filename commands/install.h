@@ -57,6 +57,11 @@ int download(char file[MAX_FILE_LENGTH]) {
 
 int install(char *name) {
 
+    if(name == NULL) {
+        printf("No app name inputted.\n");
+        exit(1);
+    }
+
     if(!access(name, F_OK) && !check(name))
         return integrate(name);
     char file[MAX_DIR_LEN];

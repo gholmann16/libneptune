@@ -1,5 +1,10 @@
 int destroy(char* file) {
 
+    if(file == NULL) {
+        printf("No app name inputted.\n");
+        exit(1);
+    }
+
     char link[MAX_DIR_LEN];
     char app[MAX_DIR_LEN];
     char real[MAX_DIR_LEN];

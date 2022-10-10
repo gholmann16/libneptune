@@ -1,4 +1,10 @@
 int reinstall(char* name) {
+
+    if(name == NULL) {
+        printf("No app name inputted.\n");
+        exit(1);
+    }
+
     char cache[MAX_DIR_LEN];
     char app[MAX_DIR_LEN];
 
