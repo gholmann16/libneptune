@@ -7,9 +7,23 @@ int registerp(const char *softlink, char *ptr) {
 
     char *localdata = getdir("userdata");
     chdir(getenv("HOME"));
+    chdir(".local/share/aisap/profiles");
+    if(access(ptr, F_OK)) {
+        FILE *perms = fopen(ptr, "w");
+        fprintf(perms, "[X-App Permissions]\n");
+        fprintf(perms, "Level=2\n");
+        fprintf(perms, "Files=xdg-desktop;xdg-download:rw;/run/dbus;/run/user:rw\n");
+        fprintf(perms, "Devices=dri;\n");
+        fprintf(perms, "Sockets=x11;wayland;pulseaudio;network;\n");
+        fclose(perms);
+    }
+
+    chdir(getenv("HOME"));    
     mkdir(localdata, 0700);
     chdir(localdata);
+
     free(localdata);
+
     DIR* dir = opendir(ptr);
 
     if (dir) {
@@ -20,20 +34,7 @@ int registerp(const char *softlink, char *ptr) {
     } 
     
     else {
-        mkdir(ptr, 0700);
-        chdir(ptr);
-        mkdir("metadata", 0700);
-        mkdir("apphome", 0700);
-        // mkdir("appcopy", 0700);
-        
-        FILE *perms = fopen("metadata/permissions.ini", "w");
-        fprintf(perms, "[X-App Permissions]\n");
-        fprintf(perms, "Level=2\n");
-        fprintf(perms, "Files=xdg-desktop;xdg-download:rw;\n");
-        fprintf(perms, "Devices=dri;\n");
-        fprintf(perms, "Sockets=x11;wayland;pulseaudio;network;\n");
-        fclose(perms);
-
+        mkdir(ptr, 0700);     
         return 0;
     }
 }

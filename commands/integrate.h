@@ -6,23 +6,7 @@ int integrate(char * file) {
 
     chmod(file, PERMISSIONS);
 
-    // Don't add part after -
-    char *ptr;
-
-    ptr = strchr(file, '-');
-    if (ptr != NULL)
-        *ptr = '\0';
-    else if(strcmp(getFileExtension(file), "AppImage") == 0)
-        file[strlen(file)-9] = '\0';
-
-    ptr = strrchr(file, '/');
-    if (ptr == NULL) 
-        ptr = file; 
-        // this used to be a much simpler function
-        //idk if c library updated or sum but this shit is bloated
-    else 
-        ptr = ptr + 1;
-
+    char *ptr = name(file);
 
     strcpy(finalfile, getenv("HOME"));
     strcat(finalfile, "/.local/neptune/apps/");
@@ -40,6 +24,7 @@ int integrate(char * file) {
     symlink(finalfile, softlink);
     
     registerp(softlink, ptr);
+    char* dfile = appimage_registered_desktop_file_path(softlink, appimage_get_md5(softlink), 1);
 
     remove(softlink);
     symlink("/usr/bin/nep", softlink);
@@ -54,16 +39,11 @@ int integrate(char * file) {
     strcat(dotdesktop, ".desktop");
 
     free(dir);
+    free(ptr);
 
-    char* dfile = desktop(finalfile);
-    if (dfile == NULL)
-        printf("Desktop file not found.");
-    else {
-        appimage_extract_file_following_symlinks(finalfile, dfile, dotdesktop);
-        chmod(dotdesktop, 0755);
-        printf("Success.\n");
-    }
+    link(dfile, dotdesktop);
+    chmod(dotdesktop, 0755);
+    printf("Success.\n");
 
-    free(dfile);
     return 0;
 }

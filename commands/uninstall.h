@@ -18,7 +18,7 @@ int uninstall(char *file) {
     free(home);
     sexecl("/bin/rm", "-rf", file, NULL);
 
-    printf("Data deleted.");
-    
+    printf("Data deleted.\n");
+
     return 0;
 }

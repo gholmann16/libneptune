@@ -46,3 +46,7 @@ int refresh();
 
 // Updates an appimage directly. Provide direct path.
 int update_appimage(char * appname); 
+
+/*  If give = 0, prints app permissions. If change is inputted, give decides if neptune
+    gives or takes away said permission from said app */
+int permissions(int give, char* app, char* change);
