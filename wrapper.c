@@ -10,6 +10,7 @@
 //External Libraries
 #include <appimage/appimage.h>
 #include <ezxml.h>
+#include <aisap.h>
 
 #define MAX_DIR_LEN 512
 #define MAX_FILE_LENGTH 256 //might wanna look at these values in the future
