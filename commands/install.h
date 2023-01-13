@@ -61,15 +61,8 @@ int install(char *name) {
         printf("No app name inputted.\n");
         exit(1);
     }
-
     if(!access(name, F_OK) && !check(name))
         return integrate(name);
-    char file[MAX_DIR_LEN];
-    strcpy(file, getenv("OWD"));
-    strcat(file, "/");
-    strcat(file, name);
-    if(!access(file, F_OK ) && !check(file)) 
-        return integrate(file);
     else if (download(name)) {
         char newfile[MAX_DIR_LEN];
         strcpy(newfile, "/tmp/");
