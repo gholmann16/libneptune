@@ -63,3 +63,12 @@ extern "C" int update_appimage(char * appname) {
     printf("%s successfully updated!\n", appname);
     return 0;
 }
+
+extern "C" int check_updateability(char * appname) {
+    appimage::update::Updater updater(appname, true);
+    string test;
+    updater.describeAppImage(test);
+    if (test.find("Assembled ZSync URL") != std::string::npos)
+        return 1;
+    return 0;
+}

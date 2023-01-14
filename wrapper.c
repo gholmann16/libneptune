@@ -27,6 +27,7 @@
 #include "functions/internal.h"
 #include "functions/extract.h"
 #include "functions/name.h"
+#include "functions/updatable.h"
 
 #include "commands/integrate.h"
 #include "commands/remove.h"
@@ -38,3 +39,4 @@
 #include "commands/find.h"
 #include "commands/run.h"
 #include "commands/permissions.h"
+#include "commands/upgrade.h"
