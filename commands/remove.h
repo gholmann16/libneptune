@@ -17,8 +17,10 @@ int destroy(char* file) {
     strcat(app, "/.local/neptune/apps/");
     strcat(app, file);
 
+    strcpy(real, getenv("HOME"));
     char *dir = getdir("dir");
-    strcpy(real, dir);
+    strcat(real, "/");
+    strcat(real, dir);
     strcat(real, "/");
     strcat(real, file);
     strcat(real, ".desktop");

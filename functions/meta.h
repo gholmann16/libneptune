@@ -8,6 +8,9 @@ int install_preferences() {
     mkdir(".local/neptune", PERMISSIONS);
     mkdir(".local/neptune/bin", PERMISSIONS);
     mkdir(".local/neptune/apps", PERMISSIONS);
+    mkdir(".cache/neptune", PERMISSIONS);
+    mkdir(".cache/neptune/apps", PERMISSIONS);
+    mkdir(".cache/neptune/featured", PERMISSIONS);
     mkdir("Applications", PERMISSIONS);
     mkdir(".AppImageData", 0700);
 

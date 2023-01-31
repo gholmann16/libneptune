@@ -18,6 +18,7 @@ char *getdir(char * pdir) {
         dir[i] = ch;
         ++i;
     }
+    dir[i] = '\0';
     fclose(fp);
     return dir;
 }
