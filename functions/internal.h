@@ -12,7 +12,7 @@ int registerp(const char *softlink, char *ptr) {
         FILE *perms = fopen(ptr, "w");
         fprintf(perms, "[X-App Permissions]\n");
         fprintf(perms, "Level=2\n");
-        fprintf(perms, "Files=xdg-desktop;xdg-download:rw;/run/dbus;/run/user:rw\n");
+        fprintf(perms, "Files=xdg-desktop;xdg-download:rw;/run/dbus;/run/user:rw;\n");
         fprintf(perms, "Devices=dri;\n");
         fprintf(perms, "Sockets=x11;wayland;pulseaudio;network;\n");
         fclose(perms);

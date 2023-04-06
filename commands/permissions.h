@@ -10,25 +10,11 @@ int permissions(int give, char* app, char* change) {
         return 1;
     }
 
-    if (!give) {
-        char command[MAX_DIR_LEN];
-        strcpy(command, getenv("APPDIR"));
-        strcat(command, "/usr/bin/");
-        strcat(command, "aisap-0.8.0-alpha-x86_64.AppImage");
-        
-        char path[MAX_DIR_LEN];    
-        strcpy(path, getenv("HOME"));
-        strcat(path, "/.local/neptune/apps/");
-        strcat(path, app);
-
-        sexecl(command, path, "-l", NULL);
-        return 0;
-    }
-
     if(change == NULL) {
         printf("\033[0;31mNo change inputted.\033[0m\n");
         return 1;
     }
+    
     char perms[MAX_DIR_LEN];    
 
     strcpy(perms, getenv("HOME"));
