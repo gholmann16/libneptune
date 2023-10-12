@@ -29,5 +29,7 @@ int run(char file[MAX_FILE_LENGTH], int argc, char * argv[]) {
     aisap_appimage_mount(&new);
     aisap_appimage_run(&new, NULL);
 
+    aisap_appimage_destroy(&new);
+    
     return 0;
 }

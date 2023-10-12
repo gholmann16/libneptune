@@ -4,11 +4,6 @@ char *getdir(char * pdir) {
     strcpy(newdir, getenv("HOME"));
     strcat(newdir, "/.config/neptune/");
     strcat(newdir, pdir);
-
-    if(access(newdir, F_OK )) {
-        printf("You have not selected your directory preferences yet. Run ./Neptune-x86_64.AppImage --install to install Neptune to your system");
-        exit(1);
-    }
     
     char * dir = malloc(MAX_DIR_LEN);
     char ch;
